@@ -1,1 +1,22 @@
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-application
+  labels:
+    app: my-application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-application
+  template:
+    metadata:
+      labels:
+        app: my-application
+    spec:
+      containers:
+      - name: my-application-container
+        image: your_dockerhub_username/your_repo:latest
+        ports:
+        - containerPort: 80
