@@ -29,7 +29,7 @@ pipeline {
         stage('Update Deployment YAML') {
             steps {
                 script {
-                    #sh "sed -i 's|image: .*$|image: ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER}|' ${KUBERNETES_DEPLOYMENT_FILE}"
+                   
                     sh "sed -i 's|image: .*\\$|image: ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER}|' ${KUBERNETES_DEPLOYMENT_FILE}"
 
                 }
