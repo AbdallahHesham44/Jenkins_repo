@@ -7,7 +7,7 @@ pipeline {
         DOCKER_CREDENTIALS = "Docker-cred"
     }
 
-
+    stages {
         stage('Build Docker Image') {
             steps {
                 script {
@@ -19,7 +19,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v${env.BUILD_NUMBER}/', DOCKER_CREDENTIALS) {
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKER_CREDENTIALS) {
                         dockerImage.push()
                     }
                 }
@@ -29,9 +29,7 @@ pipeline {
         stage('Update Deployment YAML') {
             steps {
                 script {
-                   
                     sh 'sed -i \'s|image: .*|image: ${DOCKER_HUB_REPO}:${env.BUILD_NUMBER}|\' ${KUBERNETES_DEPLOYMENT_FILE}'
-
                 }
             }
         }
@@ -43,7 +41,7 @@ pipeline {
                 }
             }
         }
-    
+    }
 
     post {
         success {
@@ -58,4 +56,3 @@ pipeline {
         }
     }
 }
-
